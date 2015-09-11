@@ -36,7 +36,7 @@ if [ "$USE_LOCAL_MONGO" == "1" ]; then
     --hostname="$HOSTNAME-$APPNAME" \
     --env=MONGO_URL=mongodb://mongodb:27017/$APPNAME \
     --name=$APPNAME \
-    meteorhacks/meteord:base
+    meteorhacks/meteord:app
 else
   docker run \
     -d \
@@ -46,7 +46,7 @@ else
     --hostname="$HOSTNAME-$APPNAME" \
     --env-file=$ENV_FILE \
     --name=$APPNAME \
-    meteorhacks/meteord:base
+    meteorhacks/meteord:app
 fi
 
 <% if(typeof sslConfig === "object")  { %>
