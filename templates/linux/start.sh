@@ -7,6 +7,8 @@ ENV_FILE=$APP_PATH/config/env.list
 PORT=<%= port %>
 USE_LOCAL_MONGO=<%= useLocalMongo? "1" : "0" %>
 
+CFS_PATH=/var/lib/turordning/cfs/files/images
+
 # Remove previous version of the app, if exists
 docker rm -f $APPNAME
 
@@ -23,6 +25,7 @@ docker build -t meteorhacks/meteord:app - << EOF
 FROM meteorhacks/meteord:base
 RUN apt-get update
 RUN apt-get install graphicsmagick -y
+RUN mkdir -p $CFS_PATH
 EOF
 
 if [ "$USE_LOCAL_MONGO" == "1" ]; then
@@ -31,6 +34,7 @@ if [ "$USE_LOCAL_MONGO" == "1" ]; then
     --restart=always \
     --publish=$PORT:80 \
     --volume=$BUNDLE_PATH:/bundle \
+    --volume=$CFS_PATH:$CFS_PATH \
     --env-file=$ENV_FILE \
     --link=mongodb:mongodb \
     --hostname="$HOSTNAME-$APPNAME" \
