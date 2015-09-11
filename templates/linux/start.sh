@@ -14,9 +14,15 @@ docker rm -f $APPNAME
 docker rm -f $APPNAME-frontend
 
 # We don't need to fail the deployment because of a docker hub downtime
-set +e
-docker pull meteorhacks/meteord:base
+#set +e
+#docker pull meteorhacks/meteord:base
+#set -e
+
 set -e
+docker build -t meteorhacks/meteord:app - << EOF
+FROM meteorhacks/meteord:base
+RUN apt-get update && apt-get install graphicsmagick -y
+EOF
 
 if [ "$USE_LOCAL_MONGO" == "1" ]; then
   docker run \
