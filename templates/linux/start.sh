@@ -21,7 +21,8 @@ docker rm -f $APPNAME-frontend
 set -e
 docker build -t meteorhacks/meteord:app - << EOF
 FROM meteorhacks/meteord:base
-RUN apt-get update && apt-get install graphicsmagick -y
+RUN apt-get update
+RUN apt-get install graphicsmagick -y
 EOF
 
 if [ "$USE_LOCAL_MONGO" == "1" ]; then
